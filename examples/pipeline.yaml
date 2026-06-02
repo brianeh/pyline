@@ -1,0 +1,9 @@
+# override via PYLINE_HTTPBIN_URL
+name: demo
+plugins:
+  - name: uppercase
+  - name: httpbin
+    config:
+      path: /get
+      params:
+        foo: bar
