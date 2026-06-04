@@ -1,7 +1,4 @@
-"""Built-in plugin registry.
-
-Plugins may also be discovered via entry points (see pyproject).
-"""
+"""Built-in plugin registry."""
 
 from __future__ import annotations
 
@@ -27,10 +24,6 @@ def register_plugin(name: str, cls: type[Plugin] | None = None) -> type[Plugin]:
 
 def _register_builtins() -> None:
     """Import built-in plugins so they self-register."""
-    from pyline.plugins import (  # noqa: F401
-        example_plugin,
-        httpbin_plugin,
-        trim_plugin,
-    )
+    from pyline.plugins import example_plugin, httpbin_plugin  # noqa: F401
 
-    _ = example_plugin, httpbin_plugin, trim_plugin
+    _ = example_plugin, httpbin_plugin

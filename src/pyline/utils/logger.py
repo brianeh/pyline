@@ -6,11 +6,6 @@ import sys
 _CONFIGURED = False
 
 
-def configure_logging(level: str | None = None) -> None:
-    """Apply log level from settings; call at startup from CLI."""
-    _ = level
-
-
 def get_logger(name: str) -> logging.Logger:
     """Return a logger with a stderr handler (configured once)."""
     global _CONFIGURED

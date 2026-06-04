@@ -14,7 +14,6 @@ def test_httpbin_request_sets_metadata() -> None:
     plugin.client._url = lambda path: f"https://httpbin.org{path}"
     plugin._path = "/get"
     plugin._params = {"foo": "bar"}
-    plugin._retry = 0
 
     ctx = PipelineContext(data="HELLO")
     result = plugin.request(ctx)

@@ -9,7 +9,7 @@ from pyline.plugins.registry import register_plugin
 
 @register_plugin("uppercase")
 class UppercasePlugin(Plugin):
-    """Uppercase string pipeline data; coerces non-strings to str before transforming."""
+    """Uppercase string pipeline data."""
 
     name = "uppercase"
 

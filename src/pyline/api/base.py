@@ -29,3 +29,4 @@ class APIPlugin(Plugin):
 
     def run(self, ctx: PipelineContext) -> PipelineContext:
         ctx.data = self.request(ctx)
+        return ctx

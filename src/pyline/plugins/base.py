@@ -14,7 +14,7 @@ class Plugin(ABC):
     name: str = "plugin"
 
     def configure(self, config: dict[str, Any]) -> None:
-        """Apply per-plugin settings from pipeline YAML; must be implemented by subclasses."""
+        """Apply per-plugin settings from pipeline YAML."""
 
     @abstractmethod
     def run(self, ctx: PipelineContext) -> PipelineContext:

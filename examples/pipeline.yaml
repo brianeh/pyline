@@ -1,4 +1,3 @@
-# override via PYLINE_HTTPBIN_URL
 name: demo
 plugins:
   - name: uppercase

@@ -12,9 +12,3 @@ class PipelineContext:
 
     data: Any
     metadata: dict[str, Any] = field(default_factory=dict)
-    session_id: str | None = None
-
-    @classmethod
-    def create(cls, data: Any) -> PipelineContext:
-        """Create a context with the given initial data."""
-        return cls(data=data)

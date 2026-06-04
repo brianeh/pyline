@@ -6,12 +6,8 @@ class PyLineError(Exception):
 
 
 class ConfigError(PyLineError):
-    """Raised when pipeline YAML is missing or invalid."""
+    """Invalid or missing pipeline configuration."""
 
 
 class PluginLoadError(PyLineError):
-    """Raised when a plugin cannot be imported or instantiated."""
-
-
-class APIError(PyLineError):
-    """Raised when an outbound API call fails."""
+    """Failed to load or instantiate a plugin."""

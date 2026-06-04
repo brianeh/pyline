@@ -21,28 +21,10 @@ class HttpbinPlugin(APIPlugin):
         super().__init__(HTTPBIN_BASE_URL)
         self._path = "/get"
         self._params: dict[str, Any] = {}
-        self._base_url: str | None = None
-        self._retry = 0
 
     def configure(self, config: dict[str, Any]) -> None:
         self._path = config.get("path", "/get")
         self._params = dict(config.get("params", {}))
-        self._base_url = config.get("base_url")
-        self._retry = config.get("retry", 0)
-
-    def _get_with_retry(
-        self, path: str, *, params: dict[str, Any] | None = None
-    ) -> Any:
-        attempts = max(1, int(self._retry) + 1)
-        last_error: Exception | None = None
-        for _ in range(attempts):
-            try:
-                return self.client.get(path, params=params)
-            except Exception as e:
-                last_error = e
-        if last_error is not None:
-            raise last_error
-        return self.client.get(path, params=params)
 
     def request(self, ctx: PipelineContext) -> Any:
         params = dict(self._params)
@@ -51,9 +33,4 @@ class HttpbinPlugin(APIPlugin):
         url = self.client._url(self._path)
         ctx.metadata["httpbin_url"] = url
         ctx.metadata["httpbin_params"] = params
-        ctx.metadata["session"] = self.client._session
-        return self._get_with_retry(self._path, params=params)
-
-    def run(self, ctx: PipelineContext) -> PipelineContext:
-        ctx.data = self.request(ctx)
-        return ctx
+        return self.client.get(self._path, params=params)

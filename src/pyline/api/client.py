@@ -6,15 +6,9 @@ from typing import Any
 
 import requests
 
-DEFAULT_TIMEOUT = 30  # used when retry logic is enabled
-
 
 class APIClient:
-    """Thin wrapper around requests for REST APIs.
-
-    Raises:
-        APIError: On HTTP or connection failures.
-    """
+    """Thin wrapper around requests for REST APIs."""
 
     def __init__(
         self,
@@ -26,7 +20,6 @@ class APIClient:
         default_headers: dict[str, str] | None = None,
         session: requests.Session | None = None,
     ) -> None:
-        """session: HTTP session shared across API calls in a pipeline."""
         self.base_url = base_url.rstrip("/")
         self.api_key = api_key
         self.api_key_param = api_key_param
@@ -64,7 +57,6 @@ class APIClient:
             params=self._params_with_key(params),
             headers=self._headers(headers),
         )
-        # FIXME: wrap HTTP errors in PyLineError
         response.raise_for_status()
         return response.json()
 
@@ -82,6 +74,5 @@ class APIClient:
             json=json,
             headers=self._headers(headers),
         )
-        # FIXME: wrap HTTP errors in PyLineError
         response.raise_for_status()
         return response.json()

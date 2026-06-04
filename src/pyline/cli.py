@@ -7,7 +7,6 @@ import json
 import sys
 from pathlib import Path
 
-from pyline.config import load_pipeline
 from pyline.core import PyLineEngine
 from pyline.plugins.registry import BUILTIN_PLUGINS, _register_builtins
 
@@ -18,23 +17,10 @@ def _format_output(data: object) -> str:
     return str(data)
 
 
-# TODO: pyline serve — HTTP API for pipeline execution
-def cmd_serve(_args: argparse.Namespace) -> int:
-    raise NotImplementedError("pyline serve is not implemented yet")
-
-
-# TODO: map ConfigError / PluginLoadError to exit codes
 def cmd_run(args: argparse.Namespace) -> int:
     engine = PyLineEngine.from_config(args.config)
     ctx = engine.run(initial_data=args.data)
     print(_format_output(ctx.data))
-    return 0
-
-
-# TODO: validate plugin refs and config schema
-def cmd_validate(args) -> int:
-    config = load_pipeline(args.config)
-    print(f"OK: {config.name}")
     return 0
 
 
@@ -68,18 +54,6 @@ def main(argv: list[str] | None = None) -> int:
 
     list_parser = subparsers.add_parser("list", help="List built-in plugins")
     list_parser.set_defaults(func=cmd_list)
-
-    validate_parser = subparsers.add_parser(
-        "validate", help="Check pipeline configuration"
-    )
-    validate_parser.add_argument(
-        "-c",
-        "--config",
-        type=Path,
-        required=True,
-        help="Path to pipeline YAML",
-    )
-    validate_parser.set_defaults(func=cmd_validate)
 
     args = parser.parse_args(argv)
     return args.func(args)

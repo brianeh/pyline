@@ -19,7 +19,6 @@ class PluginSpec:
     module: str | None = None
     class_name: str | None = None
     config: dict[str, Any] = field(default_factory=dict)
-    retry: int = 0
 
 
 @dataclass
@@ -36,7 +35,6 @@ def load_pipeline(path: Path | str) -> PipelineConfig:
     if not path.is_file():
         raise ConfigError(f"Pipeline config not found: {path}")
 
-    # TODO: merge settings from PYLINE_ENV and config/{env}.yaml
     with path.open(encoding="utf-8") as f:
         raw = yaml.safe_load(f)
 
@@ -61,17 +59,12 @@ def load_pipeline(path: Path | str) -> PipelineConfig:
         plugin_config = entry.get("config", {})
         if not isinstance(plugin_config, dict):
             raise ConfigError(f"plugins[{i}].config must be a mapping")
-        retry = entry.get("retry", 0)
-        if not isinstance(retry, int) or retry < 0:
-            raise ConfigError(f"plugins[{i}].retry must be a non-negative integer")
-        # TODO: implement retry in load_plugin / APIClient
         plugins.append(
             PluginSpec(
                 name=plugin_name,
                 module=entry.get("module"),
                 class_name=entry.get("class"),
                 config=plugin_config,
-                retry=retry,
             )
         )
 

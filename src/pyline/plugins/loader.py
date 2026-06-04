@@ -67,7 +67,6 @@ def load_plugin(spec: PluginSpec) -> Plugin:
 
     if spec.module and spec.class_name:
         cls = _load_from_module_path(spec.module, spec.class_name)
-        # TODO: verify plugin.name matches spec.name
         plugin = cls()
     elif spec.name in BUILTIN_PLUGINS:
         plugin = BUILTIN_PLUGINS[spec.name]()
